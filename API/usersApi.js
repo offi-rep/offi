@@ -11,7 +11,6 @@ router.get('/' , (req,res) => {
 router.get('/:id', (req,res) => {
    const userId = req.params.id;
    const user = getUserById(userId);
-   console.log(`found user ${userId}`);
    res.status(200).send(JSON.stringify(user));
 });
 
