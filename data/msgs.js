@@ -33,3 +33,7 @@ module.exports.getMessages = (idPersonOne, idPersonTwo) => {
     const messages = msgs.filter((msg) => { return (msg.idFrom==idPersonOne && msg.idTo==idPersonTwo) || (msg.idFrom == idPersonTwo && msg.idTo == idPersonOne)}).map((msg) => {return {timestamp: msg.timestamp, message: msg.value}});
     return messages;
 }
+
+module.exports.addMessage = (message) => {
+    msgs.push(message);
+}
