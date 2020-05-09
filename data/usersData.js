@@ -1,7 +1,6 @@
 const mockUsers = [{
            id: 1, 
            firstName: "uri",
-           lastName: "portnoy",
            age: 30,
            gender: "m",
            occupation: "fullstack developer",
@@ -15,7 +14,6 @@ const mockUsers = [{
        {
         id: 2, 
         firstName: "oren",
-        lastName: "chen",
         age: 30,
         gender: "m",
         occupation: "looking for a job",
@@ -29,7 +27,6 @@ const mockUsers = [{
     {
         id: 3, 
         firstName: "shira",
-        lastName: "shalom",
         age: 27,
         gender: "f",
         occupation: "student",
@@ -43,7 +40,6 @@ const mockUsers = [{
     {
         id: 4, 
         firstName: "yulia",
-        lastName: "greenfelf",
         age: 22,
         gender: "f",
         occupation: "corona surviver",
@@ -65,5 +61,7 @@ module.exports.getUserById = (id) => {
 }
 
 module.exports.addUser = (user) => {
+    user.id = mockUsers.length+1;
     mockUsers.push(user);
+    return user.id;
 }

@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
-
+const logger = require('../startup/logging');
+const {newUser} = require('../API/matches');
 const {getUsers, getUserById, addUser} = require('../data/usersData');
 
 router.get('/' , (req,res) => {
@@ -15,11 +16,9 @@ router.get('/:id', (req,res) => {
 });
 
 router.post('/', (req,res) => {
-    console.log(JSON.stringify(req.body));
-   const {firstName, lastName, age, gender, occupation, height ,bodyType, education, freeTxt, crushedSentence} = req.body;
+   const {firstName, age, gender, occupation, height ,bodyType, education, freeTxt, crushedSentence} = req.body;
    const user = {
     firstName,
-    lastName,
     age,
     gender,
     occupation,
@@ -30,7 +29,8 @@ router.post('/', (req,res) => {
     crushedSentence 
    };
 
-   addUser(user);
+   const userId = addUser(user);
+   newUser(userId);
    res.status(200).send(JSON.stringify({result: "Success", data: user}));
 });
 
