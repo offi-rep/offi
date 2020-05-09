@@ -4,8 +4,12 @@ const path = require('path');
 
 app.use('/static', express.static(path.join(__dirname, 'public')));
 
+/**
+ * TODO: add public/images to .gitignore
+ */
 
 require('./startup/cors')(app);
+require('./startup/fileUploads')(app);
 const logger = require('./startup/logging');
 require('./startup/routes')(app);
 

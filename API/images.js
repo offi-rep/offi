@@ -23,6 +23,10 @@ router.put('/:imageId', (req,res) => {
 
     const images = getUserImages(userId);
     return res.status(200).send(JSON.stringify({result: 'Success', data: images}));
-})
+});
+
+router.post('/', (req,res) => {
+    return res.status(200).send(JSON.stringify(req.files));
+});
 
 module.exports = router;

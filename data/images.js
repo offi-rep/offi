@@ -1,10 +1,10 @@
 const path = require('path');
 
 const images = [
-    {userId: 1, images: [{id: 1, src: '../public/images/001.jpg', isMain: true}]},
-    {userId: 2, images: [{id: 1, src: '../public/images/002.jpg', isMain: true},{src: '../public/images/003.jpg', isMain: false}]},
-    {userId: 3, images: [{id: 1, src: '../public/images/004.jpg', isMain: false}, {id:2, src: '../public/images/005.jpg', isMain: true}]},
-    {userId: 4, images: [{id: 1, src: '../public/images/006.jpg', isMain: true}]},
+    {userId: 1, images: [{id: 1, src: '../public/images/001.png', isMain: true}]},
+    {userId: 2, images: [{id: 1, src: '../public/images/002.jpg', isMain: true},{src: '../public/images/005.jpg', isMain: false}]},
+    {userId: 3, images: [{id: 1, src: '../public/images/003/png', isMain: false}, {id:2, src: '../public/images/004.png', isMain: true}]},
+    {userId: 4, images: [{id: 1, src: '../public/images/006.png', isMain: true}]},
 ];
 
 module.exports.getUserImages = (userId) => {
