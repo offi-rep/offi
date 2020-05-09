@@ -25,7 +25,7 @@ router.post('/', (req,res) => {
     addMessage(message);
     const messages = getMessages(idFrom, idTo);
 
-    res.status(200).send(JSON.stringify({result: 'Success', data: messages}));
+    res.status(201).send(JSON.stringify({result: 'Success', data: messages}));
 })
 
 module.exports = router;

@@ -33,7 +33,7 @@ router.post('/', (req,res) => {
    const userId = addUser(user);
    setNewUserMatches(userId);
    setNewUserSettings(userId);
-   res.status(200).send(JSON.stringify({result: "Success", data: user}));
+   res.status(201).send(JSON.stringify({result: "Success", data: user}));
 });
 
 module.exports = router;
