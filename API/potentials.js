@@ -13,8 +13,8 @@ router.get('/', (req,res) => {
     const userId = req.header('userId');
     logger.debug(`Selecting all potentials for user ${userId}`);
 
-    const settings = getSettings(userId);
-    const users = getUsers().filter((user) => user.gender == settings.lookingFor);
+    const userSettings = getSettings(userId);
+    const users = getUsers().filter((user) => user.gender == userSettings.lookingFor);
 
     logger.debug(`users found: ${JSON.stringify(users)}`);
     res.status(200).send(users);

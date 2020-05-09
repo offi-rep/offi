@@ -26,6 +26,6 @@ module.exports.addMatch = (userId, userLikedId) => {
     }
 }
 
-module.exports.newUser = (userId) => {
+module.exports.setNewUserMatches = (userId) => {
     matches.push({userId, matches: []});
 }

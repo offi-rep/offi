@@ -1,17 +1,18 @@
-const mockUsers = [{
-           id: 1, 
-           firstName: "uri",
-           age: 30,
-           gender: "m",
-           occupation: "fullstack developer",
-           height: "189",
-           bodyType: "muschulene",
-           education: "graduated",
-           freeTxt: "im free text and i know it",
-           crushedSentence: "im so cool. believe me - you want me",
-           lastOnline: 12343253,
-       },
-       {
+const mockUsers = [
+    {
+        id: 1, 
+        firstName: "uri",
+        age: 30,
+        gender: "m",
+        occupation: "fullstack developer",
+        height: "189",
+        bodyType: "muschulene",
+        education: "graduated",
+        freeTxt: "im free text and i know it",
+        crushedSentence: "im so cool. believe me - you want me",
+        lastOnline: 12343253,
+    },
+    {
         id: 2, 
         firstName: "oren",
         age: 30,
