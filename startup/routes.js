@@ -8,4 +8,8 @@ module.exports = (app) => {
    app.use('/users', users);
    app.use('/messages', messages);
    app.use('/potentials', potentials);
+
+   app.get('*', (req,res) => {
+      res.status(404).send(JSON.stringify({result: 'Page not found', data: null}));
+   });
 }
