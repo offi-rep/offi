@@ -17,11 +17,12 @@ router.get('/:id', (req,res) => {
 });
 
 router.post('/', (req,res) => {
-   const {firstName, age, gender, occupation, height ,bodyType, education, freeTxt, crushedSentence} = req.body;
+   const {firstName, age, gender, location, occupation, height ,bodyType, education, freeTxt, crushedSentence} = req.body;
    const user = {
     firstName,
     age,
     gender,
+    location
     occupation,
     height,
     bodyType,
