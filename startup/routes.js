@@ -1,4 +1,4 @@
-const users = require('../API/usersApi');
+const users = require('../API/users');
 const messages = require('../API/messages');
 const potentials = require('../API/potentials');
 const matches = require('../API/matches');
