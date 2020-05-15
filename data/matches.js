@@ -1,8 +1,8 @@
 const matches = [
-    {userId: 1, matches: [{userId: 3, isMatched: true, showMyPictures: false}, {userId: 4, isMatched: true, showMyPictures: false}]},
-    {userId: 2, matches: [{userId: 3, isMatched: false, showMyPictures: false}]},
-    {userId: 3, matches: [{userId: 1, isMatched: true, showMyPictures: true}]},
-    {userId: 4, matches: [{userId: 1, isMatched: true, showMyPictures: false}]},
+    {userId: 1, matches: [{userId: 3, isMatched: true, isMessagesActive: true, showMyPictures: false}, {userId: 4, isMatched: true, isMessagesActive: false, showMyPictures: false}]},
+    {userId: 2, matches: [{userId: 3, isMatched: false, isMessagesActive: false, showMyPictures: false}]},
+    {userId: 3, matches: [{userId: 1, isMatched: true, isMessagesActive: true, showMyPictures: true}]},
+    {userId: 4, matches: [{userId: 1, isMatched: true, isMessagesActive: false, showMyPictures: false}]},
 ];
 
 module.exports.getMatchesById = (userId) => {
