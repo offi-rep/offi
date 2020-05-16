@@ -10,29 +10,16 @@ app.use('/static', express.static(path.join(__dirname, 'public')));
  */
 
 require('./startup/cors')(app);
-require('./startup/db')();
+const pgPool = require('./startup/db');
+
 require('./startup/fileUploads')(app);
 const logger = require('./startup/logging');
 require('./startup/routes')(app);
 
-//TODO - remove this code - only for PORTNOY localhost
-if (process.platform === 'win32') {
-    switch (process.env.NODE_ENV) {
-        case "development":
-            process.env['PORT'] = 50123;
-            break;
-        case "test":
-                process.env['PORT'] = 50124;
-                break;
-        case "production":
-            process.env['PORT'] = 50125;
-            break;
-        default:
-            process.env['NODE_ENV'] = 'development';
-            process.env['PORT'] = 50123;
-    }
-}
-
 const port = process.env.PORTT || config.get('port');
-app.listen(port, () => {logger.info(`listening in port ${port} (Enviornment: ${process.env.NODE_ENV})`)});
+app.listen(port, async () => {
+    logger.info(`listening in port ${port} (Enviornment: ${process.env.NODE_ENV})`);
+});
 
+// const results = await pool.query('SELECT id,name,age FROM users_info');
+// console.table(results.rows);
