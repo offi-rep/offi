@@ -56,8 +56,6 @@ router.put('/', (req,res) => {
    user.freeTxt = freeTxt;
    user.crushedSentence = crushedSentence;
 
-   console.log(getUsers());
-
    res.status(200).send(JSON.stringify({result: "Success", data: user}));
 });
 
