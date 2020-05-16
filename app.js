@@ -10,10 +10,12 @@ app.use('/static', express.static(path.join(__dirname, 'public')));
  */
 
 require('./startup/cors')(app);
+require('./startup/db')();
 require('./startup/fileUploads')(app);
 const logger = require('./startup/logging');
 require('./startup/routes')(app);
 
+//TODO - remove this code - only for PORTNOY localhost
 if (process.platform === 'win32') {
     switch (process.env.NODE_ENV) {
         case "development":

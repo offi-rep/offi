@@ -5,7 +5,7 @@
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "NODE_ENV=develop && nodemon app.js"
+    "start": "NODE_ENV=development&& nodemon app.js"
   },
   "author": "Uri Portnoy",
   "license": "ISC",
@@ -16,6 +16,7 @@
     "express": "^4.17.1",
     "express-fileupload": "^1.1.7-alpha.3",
     "lodash": "^4.17.15",
+    "pg": "^8.2.1",
     "winston": "^3.2.1"
   }
 }
