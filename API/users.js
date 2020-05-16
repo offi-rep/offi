@@ -22,7 +22,7 @@ router.post('/', (req,res) => {
     firstName,
     age,
     gender,
-    location
+    location,
     occupation,
     height,
     bodyType,

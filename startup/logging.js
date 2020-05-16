@@ -8,6 +8,7 @@ const myFormat = format.printf(({ level, message, label, timestamp }) => {
 let environment;
 switch (process.env.NODE_ENV) {
   case 'debug':
+  case 'development':
     environment = 'Debugging'
     break;
   case 'production':
@@ -27,7 +28,7 @@ let logger = createLogger({
 
 });
 
-if (process.env.NODE_ENV === 'debug') {
+if (process.env.NODE_ENV === 'debug' || process.env.NODE_ENV === 'development') {
   logger.add(new transports.Console({
     colorize: true,
     prettyPrint: true,
