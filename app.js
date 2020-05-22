@@ -16,7 +16,7 @@ require('./startup/fileUploads')(app);
 const logger = require('./startup/logging');
 require('./startup/routes')(app);
 
-const port = process.env.PORTT || config.get('port');
+const port = process.env.PORT || config.get('port');
 app.listen(port, async () => {
     logger.info(`listening in port ${port} (Enviornment: ${process.env.NODE_ENV})`);
 });

@@ -5,10 +5,13 @@
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "NODE_ENV=development&& nodemon app.js"
+    "start": "node app.js"
   },
   "author": "Uri Portnoy",
   "license": "ISC",
+  "engines": {
+    "node": "10.16.1"
+  },
   "dependencies": {
     "body-parser": "^1.19.0",
     "config": "^3.3.1",
