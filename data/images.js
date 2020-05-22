@@ -1,18 +1,22 @@
 const path = require('path');
 
 const images = [
-    {userId: 1, images: [{id: 1, src: '../public/images/001.png', isMain: true}]},
-    {userId: 2, images: [{id: 1, src: '../public/images/002.jpg', isMain: true},{src: '../public/images/005.jpg', isMain: false}]},
-    {userId: 3, images: [{id: 1, src: '../public/images/003/png', isMain: false}, {id:2, src: '../public/images/004.png', isMain: true}]},
-    {userId: 4, images: [{id: 1, src: '../public/images/006.png', isMain: true}]},
+    {userId: 1, url: '../public/images/001.png', dateMainChanged: 1589962926000},
+    {userId: 2, url: '../public/images/005.jpg', dateMainChanged: 1588070593},
+    {userId: 3, url: '../public/images/004.png', dateMainChanged: 1588503073},
+    {userId: 4, url: '../public/images/006.png', dateMainChanged: 1589280193},
+    {userId: 3, url: '../public/images/003/png', dateMainChanged: 1589962926000},
+    {userId: 2, url: '../public/images/002.jpg', dateMainChanged: 1589280193},
 ];
 
 module.exports.getUserImages = (userId) => {
-    const user = images.find(user => user.userId == userId);
-    if (typeof user == 'undefined')
-        return null;
-
-    return user.images;
+    const imagesList = images.filter(image => image.userId == userId).map(image => {
+        const obj = {};
+        obj['url'] = image.url;
+        obj['dateMainChanged'] = image.dateMainChanged;
+        return obj;
+    });
+    return imagesList;
 }
 
 module.exports.updateMainImage = (userId, newMainImage) => {
@@ -23,11 +27,11 @@ module.exports.updateMainImage = (userId, newMainImage) => {
 
     for (let image of user.images) {
         if (image.id == newMainImage) {
-            console.log('new: ' + JSON.stringify(image));
-            image.isMain = true;
-        } else {
-            console.log('old: ' + JSON.stringify(image));
-            image.isMain = false;
+            const updateTime = new Date();
+            image.dateMainChanged = updateTime.getTime();
+
+            logger.info(`user updated main image ${image.id} to at ${updateTime.toString()}`);
+            break;
         }
     }
 

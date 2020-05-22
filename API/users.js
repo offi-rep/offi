@@ -6,10 +6,14 @@ const {setNewUserSettings} = require('../data/settings');
 const {getUsers, getUserById, addUser} = require('../data/usersData');
 const pgPool = require('../startup/db');
 
+//TODO: remove this function from the API
 router.get('/' , async (req,res) => {
+   logger.info('user requesting for all users');
    const users = getUsers();
+   
    const results = await pgPool.query('SELECT id,name,age FROM users_info');
    console.table(results.rows);
+   
    res.status(200).send(JSON.stringify(users));
 });
 
