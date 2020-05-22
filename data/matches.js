@@ -19,10 +19,12 @@ module.exports.addMatch = (userId, userLikedId) => {
     if (match != -1) {
         user.matches.push({userId: userLiked.userId, isMatched: true, showMyPictures: false});
         matches[match].isMatched = true;
+        return true;
     }
     //not a match
     else {
         user.matches.push({userId: userLiked.userId, isMatched: false, showMyPictures: false});
+        return false;
     }
 }
 

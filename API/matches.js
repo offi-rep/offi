@@ -8,9 +8,13 @@ router.put('/', (req,res) => {
     const userId = req.header('userId');
     const {userLikedId} = req.body;
 
-    addMatch(userId, userLikedId);
+    const isMatched = addMatch(userId, userLikedId)
     logger.debug(JSON.stringify(getMatchesById(userId)));
-    res.status(200).send(JSON.stringify({result: 'Success', data: `${userLikedId} is now in ${userId} likes list`}));
+    if (isMatched) {
+        res.status(200).send(JSON.stringify({result: 'Success', data: `Matched`}));
+    } else {
+        res.status(200).send(JSON.stringify({result: 'Success', data: `Not a match. ${userLikedId} is now in ${userId} likes list`}));
+    }
 })
 
 module.exports = router;
