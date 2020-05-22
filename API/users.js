@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
 const logger = require('../startup/logging');
-const {setNewUserMatches} = require('../data/matches');
 const {setNewUserSettings} = require('../data/settings');
 const {getUsers, getUserById, addUser} = require('../data/usersData');
 const pgPool = require('../startup/db');
@@ -39,7 +38,6 @@ router.post('/', (req,res) => {
    };
 
    const userId = addUser(user);
-   setNewUserMatches(userId);
    setNewUserSettings(userId);
    res.status(201).send(JSON.stringify({result: "Success", data: user}));
 });
