@@ -9,7 +9,7 @@ const _ = require('lodash');
 //TODO: remove this function from the API
 router.get('/' , async (req,res) => {
    logger.info('user requesting for all users');
-   const queryResult = await pgPool.query('SELECT name,age,gender,height FROM users_info');
+   const queryResult = await pgPool.query('SELECT id,name,age,gender,height FROM users_info');
    
    logger.debug(`users found: ${JSON.stringify(queryResult.rows)}`);
    
