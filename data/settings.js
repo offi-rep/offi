@@ -1,14 +1,14 @@
 const settings = [
     {
-        userId: 1,
-        lookingFor: 'f',
+        userId: 4,
+        lookingFor: 'd',
         searchRadius: 2,
         ageMin: 24,
         ageMax: 30,
         currentLocation: {lat: 32.084572, long: 34.772768}
     },
     {
-        userId: 2,
+        userId: 5,
         lookingFor: 'f',
         searchRadius: 5,
         ageMin: 22,
@@ -16,15 +16,23 @@ const settings = [
         currentLocation: {lat: 32.084572, long: 34.772768}
     },
     {
-        userId: 3,
-        lookingFor: 'm',
+        userId: 7,
+        lookingFor: 'f',
         searchRadius: 10,
         ageMin: 28,
         ageMax: 35,
         currentLocation: {lat: 32.084572, long: 34.772768}
     },
     {
-        userId: 4,
+        userId: 8,
+        lookingFor: 'm',
+        searchRadius: 5,
+        ageMin: 20,
+        ageMax: 38,
+        currentLocation: {lat: 32.084572, long: 34.772768}
+    },
+    {
+        userId: 9,
         lookingFor: 'f',
         searchRadius: 5,
         ageMin: 20,

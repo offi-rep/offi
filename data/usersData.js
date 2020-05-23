@@ -1,6 +1,20 @@
 const mockUsers = [
     {
-        id: 1, 
+        id: 4, 
+        firstName: "yoav",
+        age: 32,
+        gender: "m",
+        location: 'TLV',
+        occupation: "fullstack developer",
+        height: "174",
+        bodyType: "thin",
+        education: "graduated",
+        freeTxt: "im free text and i know it",
+        crushedSentence: "im so cool. believe me - you want me",
+        lastOnline: 12343253,
+    },
+    {
+        id: 5, 
         firstName: "uri",
         age: 30,
         gender: "m",
@@ -14,7 +28,7 @@ const mockUsers = [
         lastOnline: 12343253,
     },
     {
-        id: 2, 
+        id: 7, 
         firstName: "oren",
         age: 30,
         gender: "m",
@@ -28,7 +42,7 @@ const mockUsers = [
         lastOnline: 12343413,
     },
     {
-        id: 3, 
+        id: 8, 
         firstName: "shira",
         age: 27,
         gender: "f",
@@ -42,7 +56,7 @@ const mockUsers = [
         lastOnline: 12313253,
     },
     {
-        id: 4, 
+        id: 9, 
         firstName: "yulia",
         age: 22,
         gender: "f",
