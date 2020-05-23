@@ -68,6 +68,20 @@ const mockUsers = [
         freeTxt: "I don't know what to say",
         crushedSentence: "im ein ani li mi li",
         lastOnline: 12343247,
+    },
+    {
+        id: 25, 
+        firstName: "tom",
+        age: 41,
+        gender: "f",
+        location: "Bat Yam",
+        occupation: "nothing",
+        height: 155,
+        bodyType: "thin",
+        education: "none",
+        freeTxt: "i dont know what you want me to say",
+        crushedSentence: "im cool. very cool",
+        lastOnline: 12343247,
     }
 ];
 
