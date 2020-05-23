@@ -29,24 +29,19 @@ router.get('/:id', async (req,res) => {
 
 router.post('/', async (req,res) => {
    const {firstName, age, gender, location, occupation, height ,bodyType, education, freeTxt, crushedSentence} = req.body;
-   const user = {
-    firstName,
-    age,
-    gender,
-    location,
-    occupation,
-    height,
-    bodyType,
-    education,
-    freeTxt,
-    crushedSentence 
-   };
-
    values = [firstName, age, gender, location, occupation, height, bodyType, education, freeTxt, crushedSentence];
-   const queryResult = await pgPool.query('INSERT INTO users_info(name,age,gender,location,occupation,height,bodytype,education,freetxt,crushedsentence) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10) RETURNING id',values);
-   // setNewUserSettings(userId);
-   logger.info(`new user ${JSON.stringify(queryResult.rows)} was added`);
-   res.status(201).send(JSON.stringify({result: "Success", data: JSON.stringify(queryResult.rows[0])}));
+
+   const currLocation = {"lat": 2, "long": 3};
+   //TODO: move these 2 queries into SP with transaction-commit-rollback
+   try {
+      const addUserQueryResult = await pgPool.query('INSERT INTO users_info(name,age,gender,location,occupation,height,bodytype,education,freetxt,crushedsentence) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10) RETURNING id',values);
+      await pgPool.query("INSERT INTO users_settings(user_id, looking_for, search_radius, age_min, age_max, current_location) VALUES($1, 'f',15,18,30,$2)", [addUserQueryResult.rows[0].id,currLocation]);
+      logger.info(`new user ${JSON.stringify(addUserQueryResult.rows)} was added`);
+      res.status(201).send(JSON.stringify({result: "Success", data: JSON.stringify(addUserQueryResult.rows[0])}));
+
+   } catch (ex) { 
+      res.status(500).send(JSON.stringify({result: "Failed", data: {msg: ex.message}}));
+   }
 });
 
 router.put('/', async (req,res) => {
