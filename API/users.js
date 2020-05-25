@@ -1,8 +1,6 @@
 const express = require('express');
 const router = express.Router();
 const logger = require('../startup/logging');
-const {setNewUserSettings} = require('../data/settings');
-const {getUsers, getUserById, addUser} = require('../data/usersData');
 const pgPool = require('../startup/db');
 const _ = require('lodash');
 

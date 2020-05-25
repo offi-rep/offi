@@ -5,6 +5,7 @@ const settings = [
         searchRadius: 2,
         ageMin: 24,
         ageMax: 30,
+        isActive: true,
         currentLocation: {lat: 32.084572, long: 34.772768}
     },
     {
@@ -13,6 +14,7 @@ const settings = [
         searchRadius: 5,
         ageMin: 22,
         ageMax: 28,
+        isActive: true,
         currentLocation: {lat: 32.084572, long: 34.772768}
     },
     {
@@ -21,6 +23,7 @@ const settings = [
         searchRadius: 10,
         ageMin: 28,
         ageMax: 35,
+        isActive: true,
         currentLocation: {lat: 32.084572, long: 34.772768}
     },
     {
@@ -29,6 +32,7 @@ const settings = [
         searchRadius: 5,
         ageMin: 20,
         ageMax: 38,
+        isActive: true,
         currentLocation: {lat: 32.084572, long: 34.772768}
     },
     {
@@ -37,6 +41,7 @@ const settings = [
         searchRadius: 5,
         ageMin: 20,
         ageMax: 38,
+        isActive: true,
         currentLocation: {lat: 32.084572, long: 34.772768}
     }
 ]

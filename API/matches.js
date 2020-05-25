@@ -1,17 +1,46 @@
 const express = require('express');
 const router = express.Router();
 const logger = require('../startup/logging');
-const {addMatch, getMatchesById} = require('../data/matches');
+const pgPool = require('../startup/db');
 
-router.put('/', (req,res) => {
+router.put('/', async (req,res) => {
     //TODO change to TOKEN
     const userId = req.header('userId');
-    const {userLikedId} = req.body;
+    const {firstUser} = req.body;
 
-    const isMatched = addMatch(userId, userLikedId)
-    logger.debug(JSON.stringify(getMatchesById(userId)));
+    const query = {
+        text: "UPDATE matches SET is_matched=true,date_liked=CURRENT_TIMESTAMP WHERE first_user_id=$1 AND second_user_id=$2",
+        values: [firstUser, userId]
+    }
 
-    res.status(200).send(JSON.stringify({result: 'Success', data: isMatched?`Matched`:`Not a match. ${userLikedId} is now in ${userId} likes list`}));
+    try {
+        await pgPool.query(query);
+        logger.debug(`user ${userId} liked back user ${firstUser} and it's a match!`);
+        res.status(200).send(JSON.stringify({result: 'Success', data: {msg: `matched!`}}));
+    } catch (ex) {
+        res.status(400).send(JSON.stringify({result: 'Failed', data: {msg: ex.message}}));
+    }
+
 });
+
+router.post('/', async (req,res) => {
+    const userId = req.header('userId');
+    const {secondUser, isLiked} = req.body;
+
+    //TODO: re-check the likedUser hasn't liked this user yet.
+
+    const query = {
+        text: "INSERT INTO matches(first_user_id,second_user_id,liked) VALUES($1,$2,$3)",
+        values: [userId, secondUser, isLiked]
+    }
+    
+    try{
+        await pgPool.query(query);
+        logger.debug(`user ${userId} ${!isLiked?'dis':''}liked user ${secondUser} and it's a match!`);
+        return res.status(201).send(JSON.stringify({result: 'Success', data: {msg: `User ${userId} ${!isLiked?'dis':''}liked ${secondUser}`}}));
+    } catch (ex) {
+        return res.status(400).send(JSON.stringify({result: 'Failed', data: {msg: ex.message}}));
+    }
+})
 
 module.exports = router;
