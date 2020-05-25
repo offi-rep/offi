@@ -44,8 +44,9 @@ router.post('/', async (req,res) => {
 });
 
 router.get('/', async (req,res) => {
-    logger.info(`request for: ${userId} matches`);
     const userId = req.header('userId');
+    
+    logger.info(`request for: ${userId} matches`);
     const query = {
         text: "SELECT first_user_id,second_user_id,last_message from matches WHERE is_matched=true AND (first_user_id=$1 OR second_user_id=$1);",
         values: [userId]
