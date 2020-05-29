@@ -5,6 +5,7 @@ const matches = require('../API/matches');
 const settings = require('../API/settings');
 const images = require('../API/images');
 const auth = require('../API/auth');
+const signup = require('../API/signup');
 const bodyParser = require('body-parser');
 
 module.exports = (app) => {
@@ -16,6 +17,7 @@ module.exports = (app) => {
    app.use('/settings', settings);
    app.use('/images', images);
    app.use('/auth', auth);
+   app.use('/signup', signup);
 
    app.get('*', (req,res) => {
       res.status(404).send(JSON.stringify({result: 'Page not found', data: null}));
