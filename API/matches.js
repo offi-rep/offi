@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const auth = require('../middleware/auth');
 const logger = require('../startup/logging');
 const pgPool = require('../startup/db');
 
@@ -43,10 +44,10 @@ router.post('/', async (req,res) => {
     }
 });
 
-router.get('/', async (req,res) => {
-    const userId = req.header('userId');
+router.get('/', [auth], async (req,res) => {
+    const {id: userId, name} = req.user;
     
-    logger.info(`request for: ${userId} matches`);
+    logger.info(`User ${name}(id:${userId}) searching for his matches`);
     const query = {
         text: "SELECT u.id as liked_user_id,m.last_message,u.name,u.location,u.age FROM matches AS m INNER JOIN users_info AS u ON (m.first_user_id=u.id AND m.first_user_id!=$1) OR (m.second_user_id=u.id AND m.second_user_id!=$1) WHERE is_matched=true AND (first_user_id=$1 OR second_user_id=$1);",
         values: [userId]
