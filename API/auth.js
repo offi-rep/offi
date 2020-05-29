@@ -5,7 +5,7 @@ const jwt = require('jsonwebtoken');
 const pgPool = require('../startup/db');
 const config = require('config');
 
-router.get('/', async (req,res) => {
+router.post('/', async (req,res) => {
     const {email} = req.body;
     logger.info(`user tried to signup with ${email}`);
 
