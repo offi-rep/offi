@@ -6,9 +6,8 @@ const pgPool = require('../startup/db');
 const config = require('config');
 
 router.get('/', async (req,res) => {
-    logger.info('user tried to signup');
-
     const {email} = req.body;
+    logger.info(`user tried to signup with ${email}`);
 
     const query = { 
         text: "SELECT u.id,u.name,u.gender,s.looking_for,s.age_min,s.age_max FROM users_info as u INNER JOIN users_settings as s ON u.id=s.user_id WHERE u.email=$1;",
@@ -16,6 +15,8 @@ router.get('/', async (req,res) => {
     }
 
     const queryResult = await pgPool.query(query);
+
+    logger.info(`${JSON.stringify(queryResult.rows)}`);
 
     if (queryResult.rowCount!=1) {
         return res.status(400).send(JSON.stringify({result: 'Failed', data: null}));
