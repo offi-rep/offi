@@ -48,7 +48,7 @@ router.get('/', async (req,res) => {
     
     logger.info(`request for: ${userId} matches`);
     const query = {
-        text: "SELECT first_user_id,second_user_id,last_message from matches WHERE is_matched=true AND (first_user_id=$1 OR second_user_id=$1);",
+        text: "SELECT m.first_user_id,m.second_user_id,m.last_message,u.name,u.location,u.age FROM matches AS m INNER JOIN users_info AS u ON (m.first_user_id=u.id AND m.first_user_id!=$1) OR (m.second_user_id=u.id AND m.second_user_id!=$1) WHERE is_matched=true AND (first_user_id=$1 OR second_user_id=$1);",
         values: [userId]
     }
 
