@@ -17,7 +17,7 @@ router.post('/', async (req,res) => {
     const queryResult = await pgPool.query(query);
 
     if (queryResult.rowCount!=1) {
-        return res.status(400).send(JSON.stringify({result: 'Failed', data: null}));
+        return res.status(200).send(JSON.stringify({result: 'Failed', data: null}));
     }
     
     const {id, name, gender, looking_for, age_min, age_max} = queryResult.rows[0];
