@@ -44,7 +44,7 @@ router.post('/', async (req,res) => {
     }
 });
 
-router.get('/', [auth], async (req,res) => {
+router.get('/', async (req,res) => {
     const userId = req.header('userId');
     
     logger.info(`User (id:${userId}) searching for his matches`);
