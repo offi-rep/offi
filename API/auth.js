@@ -3,6 +3,7 @@ const router = express.Router();
 const logger = require('../startup/logging');
 const jwt = require('jsonwebtoken');
 const pgPool = require('../startup/db');
+const config = require('config');
 
 router.get('/', async (req,res) => {
     logger.info('user tried to signup');
@@ -22,7 +23,7 @@ router.get('/', async (req,res) => {
     
     const {id, name, gender, looking_for, age_min, age_max} = queryResult.rows[0];
 
-    const token = jwt.sign({id, name, gender, looking_for, age_min, age_max}, process.env.P_TOKEN, { expiresIn: '7d' });
+    const token = jwt.sign({id, name, gender, looking_for, age_min, age_max}, config.get('P_TOKEN'), { expiresIn: '7d' });
     return res.status(200).send(JSON.stringify({result: 'Success', data: token}));
 });
 

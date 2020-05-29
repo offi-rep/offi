@@ -1,3 +1,4 @@
 {
-    "port": 22123
+    "port": 22123,
+    "P_TOKEN": "hello_world"
 }
