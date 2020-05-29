@@ -16,8 +16,6 @@ router.post('/', async (req,res) => {
 
     const queryResult = await pgPool.query(query);
 
-    logger.info(`${JSON.stringify(queryResult.rows)}`);
-
     if (queryResult.rowCount!=1) {
         return res.status(400).send(JSON.stringify({result: 'Failed', data: null}));
     }

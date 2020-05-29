@@ -45,9 +45,9 @@ router.post('/', async (req,res) => {
 });
 
 router.get('/', [auth], async (req,res) => {
-    const {id: userId, name} = req.user;
+    const userId = req.header('userId');
     
-    logger.info(`User ${name}(id:${userId}) searching for his matches`);
+    logger.info(`User (id:${userId}) searching for his matches`);
     const query = {
         text: "SELECT u.id as liked_user_id,m.last_message,u.name,u.location,u.age FROM matches AS m INNER JOIN users_info AS u ON (m.first_user_id=u.id AND m.first_user_id!=$1) OR (m.second_user_id=u.id AND m.second_user_id!=$1) WHERE is_matched=true AND (first_user_id=$1 OR second_user_id=$1);",
         values: [userId]
