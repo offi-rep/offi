@@ -1,6 +1,9 @@
 const cors = require('cors');
 
-//open CORS
-module.exports = (app) => {
-    app.use(cors());
+//TODO change origin to domains we want to give access to the API
+module.exports = function (app) {
+    app.use(cors({
+        exposedHeaders: ['token'],
+        origin: '*'
+    }));
 }
