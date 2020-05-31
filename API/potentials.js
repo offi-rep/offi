@@ -19,13 +19,13 @@ router.get('/', async (req,res) => {
     const {looking_for: lookingFor,age_min: ageMin,age_max: ageMax, gender: myGender} = userPref.rows[0];
 
     const queryPotentials = {
-        text: "SELECT u.id,u.name,u.gender,u.age,u.location,u.occupation,u.height,u.bodytype,u.education,u.freetxt,u.crushed_sentence FROM users_info as u INNER JOIN users_settings as s ON u.id=s.user_id WHERE u.gender=$1 AND s.looking_for=$5 AND u.age BETWEEN $2 AND $3 AND u.id!=$4 AND id NOT IN( SELECT CASE WHEN first_user_id != $4 THEN first_user_id ELSE second_user_id END AS liked_id FROM matches WHERE first_user_id=$4 OR second_user_id=$4)",
-        values: [lookingFor,ageMin,ageMax,userId,myGender]
+        text: "SELECT m.liked,* FROM (SELECT u.id as tid,u.name,u.gender,u.age,u.location,u.occupation,u.height,u.bodytype,u.education,u.freetxt,u.crushed_sentence FROM users_info as u INNER JOIN users_settings as s ON u.id = s.user_id WHERE u.gender = $1 AND s.looking_for = $2 AND u.age BETWEEN $3 AND $4 AND u.id != $5 AND id NOT IN(SELECT second_user_id FROM matches WHERE first_user_id=$5)) as t LEFT JOIN matches as m ON t.tid = m.first_user_id AND m.second_user_id=$5 ORDER by tid",
+        values: [lookingFor,myGender,ageMin,ageMax,userId]
     }
 
     const userPotentials = await pgPool.query(queryPotentials);
 
-    logger.debug(`users found: ${JSON.stringify(userPotentials)}`);
+    logger.debug(`users found: ${JSON.stringify(userPotentials.rows)}`);
     res.status(200).send(userPotentials.rows);
 });
 
