@@ -7,16 +7,16 @@ const pgPool = require('../startup/db');
 router.put('/', async (req,res) => {
     //TODO change to TOKEN
     const userId = req.header('userId');
-    const {firstUser} = req.body;
+    const {userLiked, isMatch} = req.body;
 
     const query = {
-        text: "UPDATE matches SET is_matched=true,date_liked=CURRENT_TIMESTAMP WHERE first_user_id=$1 AND second_user_id=$2",
-        values: [firstUser, userId]
+        text: "UPDATE matches SET is_matched=$3,date_liked=CURRENT_TIMESTAMP,visited=true WHERE first_user_id=$2 AND second_user_id=$3",
+        values: [isMatch, userLiked, userId]
     }
 
     try {
         await pgPool.query(query);
-        logger.debug(`user ${userId} liked back user ${firstUser} and it's a match!`);
+        logger.debug(`user ${userId} liked back user ${userLiked} and it's a match!`);
         res.status(200).send(JSON.stringify({result: 'Success', data: {msg: `matched!`}}));
     } catch (ex) {
         res.status(400).send(JSON.stringify({result: 'Failed', data: {msg: ex.message}}));
@@ -26,19 +26,19 @@ router.put('/', async (req,res) => {
 
 router.post('/', async (req,res) => {
     const userId = req.header('userId');
-    const {secondUser, isLiked} = req.body;
+    const {userLiked, isLiked} = req.body;
 
     //TODO: re-check the likedUser hasn't liked this user yet.
 
     const query = {
         text: "INSERT INTO matches(first_user_id,second_user_id,liked) VALUES($1,$2,$3)",
-        values: [userId, secondUser, isLiked]
+        values: [userId, userLiked, isLiked]
     }
     
     try{
         await pgPool.query(query);
-        logger.debug(`user ${userId} ${!isLiked?'dis':''}liked user ${secondUser} and it's a match!`);
-        return res.status(201).send(JSON.stringify({result: 'Success', data: {msg: `User ${userId} ${!isLiked?'dis':''}liked ${secondUser}`}}));
+        logger.debug(`user ${userId} ${!isLiked?'dis':''}liked user ${userLiked}`);
+        return res.status(201).send(JSON.stringify({result: 'Success', data: {msg: `User ${userId} ${!isLiked?'dis':''}liked ${userLiked}`}}));
     } catch (ex) {
         return res.status(400).send(JSON.stringify({result: 'Failed', data: {msg: ex.message}}));
     }

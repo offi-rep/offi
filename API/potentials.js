@@ -18,6 +18,7 @@ router.get('/', async (req,res) => {
     const userPref = await pgPool.query(queryMyPref);
     const {looking_for: lookingFor,age_min: ageMin,age_max: ageMax, gender: myGender} = userPref.rows[0];
 
+    //TODO: remove people who dis/liked me and I visited using "visited" field
     const queryPotentials = {
         text: "SELECT m.liked,* FROM (SELECT u.id as tid,u.name,u.gender,u.age,u.location,u.occupation,u.height,u.bodytype,u.education,u.freetxt,u.crushed_sentence FROM users_info as u INNER JOIN users_settings as s ON u.id = s.user_id WHERE u.gender = $1 AND s.looking_for = $2 AND u.age BETWEEN $3 AND $4 AND u.id != $5 AND id NOT IN(SELECT second_user_id FROM matches WHERE first_user_id=$5)) as t LEFT JOIN matches as m ON t.tid = m.first_user_id AND m.second_user_id=$5 ORDER by tid",
         values: [lookingFor,myGender,ageMin,ageMax,userId]
