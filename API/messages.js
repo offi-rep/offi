@@ -3,8 +3,6 @@ const router = express.Router();
 const pgPool = require('../startup/db');
 const logger = require('../startup/logging');
 
-const {getMessages, addMessage} = require('../data/msgs');
-
 router.get('/:secondUserId', async (req,res) => {
     const userId = req.header('userId');
     const secondUserId = req.params.secondUserId;
@@ -24,6 +22,7 @@ router.get('/:secondUserId', async (req,res) => {
 router.post('/', async (req,res) => {
     const userId = req.header('userId');
     const {secondUserId,message} = req.body;
+    logger.info(`user sending message. from ${userId} to ${secondUserId}: ${message} `);
 
     const querySendMessage = {
         text: "INSERT INTO messages(from_user_id,to_user_id,message) SELECT $1,$2,$3",
@@ -37,7 +36,8 @@ router.post('/', async (req,res) => {
 
     try {
         await pgPool.query(querySendMessage);
-        await pgPool.query(queryUpdateLastMessage);
+        logger.info(`message sent ${message}`);
+        pgPool.query(queryUpdateLastMessage);
         return res.status(201).send(JSON.stringify({result: 'Success', data: 'Message sent'}));
     } catch (ex) {
         logger.error(`couldnt post new message. ${JSON.stringify(req.body)} \n error msg: ${ex.message}`);
