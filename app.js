@@ -10,9 +10,8 @@ app.use('/static', express.static(path.join(__dirname, 'public')));
  */
 
 require('./startup/cors')(app);
-const pgPool = require('./startup/db');
+require('./startup/db');
 
-require('./startup/fileUploads')(app);
 const logger = require('./startup/logging');
 require('./startup/routes')(app);
 

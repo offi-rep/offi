@@ -7,8 +7,10 @@ const images = require('../API/images');
 const auth = require('../API/auth');
 const signup = require('../API/signup');
 const bodyParser = require('body-parser');
+require('express-async-errors');
 
 module.exports = (app) => {
+
    app.use(bodyParser.json());
    app.use('/users', users);
    app.use('/messages', messages);

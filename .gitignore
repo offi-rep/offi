@@ -1,3 +1,4 @@
 /node_modules
 /public/logs
+/public/form.html
 package-lock.json
