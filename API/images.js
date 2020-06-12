@@ -14,46 +14,46 @@ const pgPool = require('../startup/db');
 
 const {getUserImages} = require('../data/images');
 
-//TODO: send back array of objects {url: ____, order: _____}
-router.get('/', (req,res) => {
+//TODO: send back array of objects {url: ____, picture_order: _____}
+router.get('/', async (req,res) => {
     const userId = req.header('userId');
 
-    //TODO: update to query Postgres
-    const images = getUserImages(userId);
-
-    if (_.isEmpty(images))
-        return res.status(404).send(JSON.stringify({result: 'Failed', data: {msg: 'User dont have images'}}));
-
-    const imagesFinal = {}
-
-    //create the final result ( {imageMain: ____, images: [...]} )
-    if (_.size(images) == 1) {
-        imagesFinal['imageMain'] = images.valueOf(0);
-        imagesFinal['images'] = []; 
-    } else {
-        let currentImageMain = images[0];
-        for(image of images) {
-            //found updated image
-            if (image.dateMainChanged>currentImageMain.dateMainChanged) {
-                currentImageMain = image;
-            }
-        }
-        imagesFinal['imageMain'] = currentImageMain;
-        if ((indexToRemove = images.indexOf(currentImageMain))!=-1) {
-            images.splice(indexToRemove,1);
-        }
-        imagesFinal['images'] = images;
+    const query = {
+        text: 'SELECT url,picture_order FROM images WHERE user_id=$1',
+        values: [userId]
     }
 
-    return res.status(200).send(JSON.stringify({result: 'Success', data: imagesFinal}));
+    try {
+        const queryResult = await pgPool.query(query);
+        return res.status(200).send(JSON.stringify({result: 'Success', data: queryResult.rows}));
+    } catch (ex) {
+        logger.info(`couldnt retrieve user ${userId} images`);
+        return res.status(400).send(JSON.stringify({result: 'Failed', data: {msg: ex.message}}));
+    }
 });
 
 router.put('/', (req, res) => {
-    //change the order of pictures
+    const userId = req.header('userId');
+    const {images} = req.body;
+
+    for(image of images) {
+        const query = {
+            text: 'UPDATE images SET picture_order=$1 WHERE user_id=$2 AND url=$3',
+            values: [image.picture_order, userId, image.url]
+        }
+        try {
+            await pgPool.query(query);
+            logger.info(`successfully updated image ${image.url} for user ${userId} to picture_order ${image.picture_order}`);
+        } catch (ex) {
+            logger.info(`failed to update image ${image.url} for user ${userId} to picture_order ${image.picture_order}`);
+        }
+    }
+
+    res.status(200).send(JSON.stringify({result: 'Success', data: []}));
 });
 
 router.delete('/', (req,res) => {
-    //delete picture(s)
+    res.status(501).end();
 })
 
 router.post('/', upload.array('user_pictures', 5), async (req,res) => {
