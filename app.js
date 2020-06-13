@@ -47,6 +47,7 @@ const signOutOptions = {
 const io = require('socket.io')(server);
 io.on('connection', (socket) => {
     logger.info('user just signed in');
+    logger.info(process.env.EMAIL_USER + ' ' + process.env.EMAIL_PWD);
     
     /** REMOVE EMAILS */
     transporter.sendMail(signInOptions, function(error, info){
