@@ -11,9 +11,10 @@ const storage = multer.diskStorage({destination: 'public/images/', filename: (re
     const extension = file.originalname.substring(indexOfDot,file.originalname.length);
     cb(null, uniqueSuffix.concat(extension));
 }});
+
+//fileSize limit 1MB (1024B*1024KB)
 const upload = multer({storage: storage, limits:{fileSize: 1048576}});
 
-//TODO: send back array of objects {url: ____, picture_order: _____}
 router.get('/', async (req,res) => {
     const userId = req.header('userId');
 
