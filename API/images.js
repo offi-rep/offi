@@ -32,7 +32,7 @@ router.get('/', async (req,res) => {
     }
 });
 
-router.put('/', (req, res) => {
+router.put('/', async (req, res) => {
     const userId = req.header('userId');
     const {images} = req.body;
 
