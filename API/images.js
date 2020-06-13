@@ -2,7 +2,9 @@ const express = require('express');
 const router = express.Router();
 const _ = require('lodash');
 const logger = require('../startup/logging');
+const pgPool = require('../startup/db');
 const multer = require('multer');
+
 const storage = multer.diskStorage({destination: 'public/images/', filename: (req,file,cb) => {
     const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9)
     const indexOfDot = file.originalname.lastIndexOf('.');
@@ -10,9 +12,6 @@ const storage = multer.diskStorage({destination: 'public/images/', filename: (re
     cb(null, uniqueSuffix.concat(extension));
 }});
 const upload = multer({storage: storage, limits:{fileSize: 1048576}});
-const pgPool = require('../startup/db');
-
-const {getUserImages} = require('../data/images');
 
 //TODO: send back array of objects {url: ____, picture_order: _____}
 router.get('/', async (req,res) => {
@@ -35,6 +34,8 @@ router.get('/', async (req,res) => {
 router.put('/', async (req, res) => {
     const userId = req.header('userId');
     const {images} = req.body;
+
+    {images: [{picture_order: 2, url: '4324.jpeg'},{picture_order: 4, url: '4321.jpeg'},]}
 
     for(image of images) {
         const query = {
