@@ -16,10 +16,15 @@ router.put('/', async (req,res) => {
 
     try {
         await pgPool.query(query);
-        logger.debug(`user ${userId} liked back user ${userLiked} and it's a match!`);
-        res.status(200).send(JSON.stringify({result: 'Success', data: {msg: `matched!`}}));
+        if (isMatch == true) {
+            logger.debug(`user ${userId} liked back user ${userLiked} and it's a match!`);
+            return res.status(200).send(JSON.stringify({result: 'Success', data: {msg: `matched!`}}));
+        } else {
+            logger.debug(`user ${userId} liked user ${userLiked} but it's not a match`);
+            return res.status(200).send(JSON.stringify({result: 'Success', data: {msg: `not matched!`}}));
+        }
     } catch (ex) {
-        res.status(400).send(JSON.stringify({result: 'Failed', data: {msg: ex.message}}));
+        return res.status(400).send(JSON.stringify({result: 'Failed', data: {msg: ex.message}}));
     }
 
 });
