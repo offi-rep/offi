@@ -24,6 +24,7 @@ router.put('/', async (req,res) => {
             return res.status(200).send(JSON.stringify({result: 'Success', data: {msg: `not matched!`}}));
         }
     } catch (ex) {
+        logger.error(`failed to update match for ${userId} and ${userLiked}: ${JSON.stringify(ex)}`);
         return res.status(400).send(JSON.stringify({result: 'Failed', data: {msg: ex.message}}));
     }
 
