@@ -10,7 +10,7 @@ router.put('/', async (req,res) => {
     const {userLiked, isMatch} = req.body;
 
     const query = {
-        text: "UPDATE matches SET is_matched=$3,date_liked=CURRENT_TIMESTAMP,visited=true WHERE first_user_id=$2 AND second_user_id=$3",
+        text: "UPDATE matches SET is_matched=$1,date_liked=CURRENT_TIMESTAMP,visited=true WHERE first_user_id=$2 AND second_user_id=$3",
         values: [isMatch, userLiked, userId]
     }
 
