@@ -19,6 +19,40 @@ router.get('/:secondUserId', async (req,res) => {
     res.status(200).send(JSON.stringify({result: 'Success', data: queryResult.rows}));
 });
 
+router.get('/:secondUserId/count', async (req,res) => {
+    const userId = req.header('userId');
+    const secondUserId = req.params.secondUserId;
+    logger.info(`user ${userId} ask how many messages he didnt read from user ${secondUserId}`)
+
+    //select how many messages secondUserId sent me and I didn't read them
+    const queryGetMessages = {
+        text: "SELECT CAST(count(is_read) AS Integer) FROM messages where is_read=false AND ((from_user_id=$1 AND to_user_id=$2));",
+        values: [secondUserId, userId]
+    }
+
+    const queryMarkRead = {
+        text: "UPDATE messages SET is_read=true WHERE from_user_id=$1 AND to_user_id=$2 AND is_read=false",
+        values: [secondUserId, userId]
+    }
+
+    //mark old messages as read
+    try {
+        await (pgPool.query(queryMarkRead));
+    } catch (ex) {
+        logger.warn(`Couldnt mark messages as is_read=true - error message: ${ex.message}`);
+    }
+
+    //get the messages
+    try {
+        const queryGetMessagesResult = await pgPool.query(queryGetMessages);
+        logger.info(`there are ${queryGetMessagesResult.rows[0].count} unread messages from ${secondUserId} to user ${userId} `);
+        return res.status(200).send(JSON.stringify({result: 'Success', data: queryGetMessagesResult.rows[0].count}));
+    } catch (ex) {
+        logger.error(`error for select unread messages: ${JSON.stringify(ex)}`);
+        return res.status(400).send(JSON.stringify({result: 'Failed', data: {msg: ex.message}}));
+    }
+});
+
 router.post('/', async (req,res) => {
     const userId = req.header('userId');
     const {secondUserId,message} = req.body;
@@ -43,6 +77,8 @@ router.post('/', async (req,res) => {
         logger.error(`couldnt post new message. ${JSON.stringify(req.body)} \n error msg: ${ex.message}`);
         return res.status(400).send(JSON.stringify({result: 'Failed', data: {msg: ex.message}}))
     }
-})
+});
+
+
 
 module.exports = router;
